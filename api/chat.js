@@ -243,12 +243,21 @@ function cleanMessages(messages) {
 
 function readOutputText(data) {
   if (typeof data.output_text === 'string') return data.output_text;
+
   const chunks = [];
   for (const item of data.output || []) {
+    if (typeof item.text === 'string') chunks.push(item.text);
     for (const content of item.content || []) {
-      if (content.type === 'output_text' && content.text) chunks.push(content.text);
+      if (typeof content === 'string') {
+        chunks.push(content);
+      } else if (content.type === 'output_text' && content.text) {
+        chunks.push(content.text);
+      } else if (content.type === 'text' && content.text) {
+        chunks.push(content.text);
+      }
     }
   }
+
   return chunks.join('\n').trim();
 }
 
@@ -300,9 +309,14 @@ module.exports = async function handler(req, res) {
         error: data.error && data.error.message ? data.error.message : 'OpenAI request failed'
       });
     }
-    return sendJson(res, 200, {
-      answer: readOutputText(data) || "Je n'ai pas pu générer une réponse claire pour le moment."
-    });
+    const answer = readOutputText(data);
+    if (!answer) {
+      return sendJson(res, 502, {
+        error: 'OpenAI returned an empty response'
+      });
+    }
+
+    return sendJson(res, 200, { answer });
   } catch (error) {
     return sendJson(res, 500, { error: 'Unable to reach the chatbot service' });
   }
