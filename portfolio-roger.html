@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ir Frumence // Portfolio</title>
+<meta name="description" content="Portfolio d'Ir Frumence, Administrateur Réseaux & Développeur Full Stack. Kolwezi, RDC.">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23090c10'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='52' font-weight='700' fill='%2333f1c9' text-anchor='middle'%3EIF%3C/text%3E%3C/svg%3E">
+
+<!-- Open Graph / réseaux sociaux -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ir Frumence — Administrateur Réseaux & Développeur Full Stack">
+<meta property="og:description" content="Portfolio d'Ir Frumence : création de sites web, dashboards, administration et sécurisation d'infrastructures réseaux. Basé à Kolwezi, RDC.">
+<meta property="og:image" content="profil.jpeg">
+<meta property="og:url" content="https://ir-roger-frumence.vercel.app/">
+<meta property="og:locale" content="fr_FR">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ir Frumence — Administrateur Réseaux & Développeur Full Stack">
+<meta name="twitter:description" content="Portfolio d'Ir Frumence : création de sites web, dashboards, administration et sécurisation d'infrastructures réseaux.">
+<meta name="twitter:image" content="profil.jpeg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#090c10;
+    --bg-elev:#10151c;
+    --bg-elev-2:#141b24;
+    --line:#1e2733;
+    --text:#e7ecf2;
+    --dim:#7c8798;
+    --accent:#33f1c9;
+    --accent-dim:#1c8d7d;
+    --accent2:#ff4d8d;
+    --radius:2px;
+  }
+  html[data-theme="light"]{
+    --bg:#f4f6f8;
+    --bg-elev:#ffffff;
+    --bg-elev-2:#eef1f4;
+    --line:#dbe1e8;
+    --text:#12161c;
+    --dim:#5b6472;
+    --accent:#0a8a79;
+    --accent-dim:#0d6d5f;
+  }
+  html[data-theme="light"] body::before{opacity:0.6;}
+  html[data-theme="light"] .profile-photo{filter:contrast(1.03);}
+  html[data-theme="light"] .dossier-img{filter:saturate(0.95) contrast(1.02);}
+  *{transition:background-color .25s ease, border-color .25s ease, color .25s ease;}
+  .theme-toggle{
+    width:34px;height:34px;border-radius:50%;
+    border:1px solid var(--line);background:var(--bg-elev);color:var(--dim);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    margin-left:14px;flex-shrink:0;
+  }
+  .theme-toggle:hover{border-color:var(--accent-dim);color:var(--accent);}
+  .theme-toggle svg{width:16px;height:16px;}
+  .theme-toggle .icon-moon{display:none;}
+  html[data-theme="light"] .theme-toggle .icon-sun{display:none;}
+  html[data-theme="light"] .theme-toggle .icon-moon{display:block;}
+  .header-right{display:flex;align-items:center;}
+
+  /* ---------- ANIMATIONS AU DÉFILEMENT ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1);
+    will-change:opacity, transform;
+  }
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .reveal-scale{opacity:0;transform:scale(0.94);transition:opacity .6s ease, transform .6s ease;}
+  .reveal-scale.visible{opacity:1;transform:scale(1);}
+  @media (prefers-reduced-motion: reduce){
+    .reveal, .reveal-scale{opacity:1 !important;transform:none !important;transition:none !important;}
+  }
+  @media(max-width:380px){
+    section{padding:56px 5vw;}
+    .term-body{padding:20px 16px 24px;}
+    .hud{padding:18px 16px 20px;}
+    .hero-name{font-size:1.9rem;}
+    .hero-actions{gap:10px;}
+    .btn{padding:11px 16px;font-size:0.72rem;}
+    .stat-cell{padding:16px;}
+    .stat-num{font-size:1.4rem;}
+    .dossier-body{padding:18px 16px 20px;}
+    .chat-panel{right:14px;bottom:84px;}
+    .chat-fab{right:14px;bottom:18px;}
+  }
+
+  /* ---------- BARRE DE PROGRESSION DE SCROLL ---------- */
+  .scroll-progress{
+    position:fixed;top:0;left:0;height:3px;width:0%;
+    background:linear-gradient(90deg, var(--accent-dim), var(--accent));
+    z-index:100;transition:width .08s linear;
+    box-shadow:0 0 10px rgba(51,241,201,0.6);
+  }
+
+  /* ---------- BOUTON RETOUR EN HAUT ---------- */
+  .to-top{
+    position:fixed;bottom:26px;left:26px;z-index:80;
+    width:46px;height:46px;border-radius:50%;
+    background:var(--bg-elev);color:var(--dim);border:1px solid var(--line);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 26px -8px rgba(0,0,0,0.5);
+    opacity:0;transform:translateY(12px);pointer-events:none;
+    transition:opacity .25s, transform .25s, border-color .2s, color .2s;
+  }
+  .to-top.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .to-top:hover{border-color:var(--accent-dim);color:var(--accent);}
+  .to-top svg{width:18px;height:18px;}
+  @media(max-width:380px){.to-top{left:14px;bottom:18px;width:42px;height:42px;}}
+
+  /* ---------- FILTRE PROJETS ---------- */
+  .filter-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px;}
+  .filter-btn{
+    font-size:0.76rem;padding:9px 16px;border-radius:20px;
+    border:1px solid var(--line);background:transparent;color:var(--dim);
+    cursor:pointer;transition:all .2s;font-family:'JetBrains Mono',monospace;
+  }
+  .filter-btn:hover{color:var(--text);border-color:var(--dim);}
+  .filter-btn.active{background:var(--accent);color:#04120f;border-color:var(--accent);}
+  .dossier.hidden{display:none;}
+
+  /* ---------- GLOW AU SURVOL DES CARTES ---------- */
+  .glow-card{position:relative;}
+  .glow-card.glow-active{
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(51,241,201,0.14), transparent 70%), var(--bg-elev);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden;position:relative;}
+  ::selection{background:var(--accent);color:#04120f;}
+  body::before{
+    content:"";position:fixed;inset:0;
+    background-image:linear-gradient(rgba(51,241,201,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(51,241,201,0.035) 1px, transparent 1px);
+    background-size:42px 42px;pointer-events:none;z-index:1;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  }
+  .noise-line{position:fixed;left:0;right:0;height:1px;background:linear-gradient(90deg, transparent, var(--accent), transparent);opacity:0.5;z-index:2;pointer-events:none;animation:scan 7s linear infinite;}
+  @keyframes scan{0%{top:0%;}100%{top:100%;}}
+  h1,h2,h3,.mono,.eyebrow,nav,.btn,.tag,.stat-num,.log-time,.dossier-id{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  section{position:relative;z-index:3;padding:120px 8vw;max-width:1240px;margin:0 auto;}
+  @media(max-width:720px){section{padding:80px 6vw;}}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:20px 8vw;background:rgba(9,12,16,0.75);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .logo{font-weight:700;font-size:1.05rem;letter-spacing:0.02em;}
+  .logo span{color:var(--accent);}
+  nav ul{display:flex;gap:32px;list-style:none;}
+  nav a{font-size:0.8rem;color:var(--dim);letter-spacing:0.04em;transition:color .2s;position:relative;}
+  nav a:hover, nav a:focus-visible{color:var(--text);}
+  nav a:hover::after, nav a:focus-visible::after{width:100%;}
+  nav a::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;background:var(--accent);transition:width .25s;}
+  .status-pill{display:flex;align-items:center;gap:8px;font-size:0.72rem;color:var(--accent);border:1px solid var(--accent-dim);padding:6px 12px;border-radius:20px;background:rgba(51,241,201,0.06);}
+  .status-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  @media(max-width:860px){nav ul{display:none;}}
+
+  #home{padding-top:180px;padding-bottom:100px;display:grid;grid-template-columns:1.15fr 0.85fr;gap:60px;align-items:start;}
+  @media(max-width:900px){#home{grid-template-columns:1fr;gap:50px;}}
+  .eyebrow{color:var(--accent);font-size:0.75rem;letter-spacing:0.12em;display:flex;align-items:center;gap:10px;margin-bottom:24px;}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--accent);}
+  .terminal{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 30px 80px -30px rgba(0,0,0,0.6);}
+  .term-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--line);}
+  .term-dot{width:9px;height:9px;border-radius:50%;background:var(--line);}
+  .term-bar span:last-child{margin-left:auto;font-size:0.68rem;color:var(--dim);font-family:'JetBrains Mono',monospace;}
+  .term-body{padding:28px 26px 32px;min-height:210px;}
+  .term-line{color:var(--dim);font-size:0.85rem;margin-bottom:6px;font-family:'JetBrains Mono',monospace;}
+  .term-line b{color:var(--accent);font-weight:600;}
+  .hero-name{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:700;line-height:1.05;margin:14px 0 8px;color:var(--text);}
+  .hero-role{color:var(--dim);font-size:1rem;margin-bottom:22px;}
+  .cursor{display:inline-block;width:9px;height:1.1em;background:var(--accent);vertical-align:middle;animation:blink 1s step-end infinite;margin-left:2px;}
+  @keyframes blink{50%{opacity:0;}}
+  .hero-actions{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap;}
+  .btn{font-size:0.78rem;letter-spacing:0.03em;padding:13px 22px;border-radius:var(--radius);border:1px solid var(--accent-dim);color:var(--accent);transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
+  .btn:hover, .btn:focus-visible{background:var(--accent);color:#04120f;box-shadow:0 0 24px rgba(51,241,201,0.35);}
+  .btn.ghost{border-color:var(--line);color:var(--dim);}
+  .btn.ghost:hover{border-color:var(--dim);color:var(--text);background:transparent;box-shadow:none;}
+
+  .hud{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:22px 22px 26px;}
+  .hud-title{font-size:0.7rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:18px;display:flex;justify-content:space-between;}
+  .hud-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid var(--line);font-size:0.82rem;}
+  .hud-row:first-of-type{border-top:none;}
+  .hud-row .k{color:var(--dim);}
+  .hud-row .v{color:var(--text);font-weight:500;}
+  .hud-row .v.good{color:var(--accent);}
+  .hud-bar-track{width:70px;height:4px;background:var(--line);border-radius:2px;overflow:hidden;}
+  .hud-bar-fill{height:100%;background:var(--accent);}
+
+  .sec-head{margin-bottom:56px;}
+  .sec-head h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;}
+  .sec-head p{color:var(--dim);margin-top:10px;max-width:520px;font-size:0.95rem;}
+
+  #about{display:grid;grid-template-columns:1.15fr 0.85fr;gap:60px;align-items:center;}
+  #about .profile-photo-wrap{order:2;}
+  #about .about-text{order:1;}
+  @media(max-width:820px){#about{grid-template-columns:1fr;}#about .profile-photo-wrap{order:1;}#about .about-text{order:2;}}
+  .profile-photo-wrap{
+    position:relative;
+    width:240px;max-width:100%;
+    margin:0 auto;
+    padding:14px;
+    border:1px solid var(--line);
+    border-radius:16px;
+  }
+  .profile-photo-wrap::before{
+    content:"";position:absolute;inset:6px;
+    border:1px solid var(--accent-dim);border-radius:12px;
+    pointer-events:none;
+  }
+  .profile-photo-wrap picture{display:block;}
+  .profile-photo{width:100%;aspect-ratio:1/1.1;border-radius:8px;object-fit:cover;display:block;filter:grayscale(0.3) contrast(1.05);}
+  #about p{color:var(--dim);margin-bottom:16px;font-size:0.96rem;}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:20px;}
+  .stat-cell{background:var(--bg-elev);padding:22px;}
+  .stat-num{font-size:1.7rem;color:var(--accent);font-weight:700;}
+  .stat-label{color:var(--dim);font-size:0.72rem;margin-top:4px;letter-spacing:0.05em;}
+
+  .skills-wrap{display:grid;grid-template-columns:0.9fr 1.1fr;gap:60px;align-items:center;}
+  @media(max-width:900px){.skills-wrap{grid-template-columns:1fr;}}
+  #radarChart{width:100%;height:auto;overflow:visible;}
+  .radar-poly{fill:rgba(51,241,201,0.14);stroke:var(--accent);stroke-width:1.5;transform-origin:center;transform:scale(0);animation:radarIn 1s ease forwards .3s;}
+  @keyframes radarIn{to{transform:scale(1);}}
+  .radar-axis{stroke:var(--line);stroke-width:1;}
+  .radar-lbl{fill:var(--text);font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;}
+  .radar-labels{padding:0 34px;}
+  .tag-cloud{display:flex;flex-wrap:wrap;gap:10px;}
+  .tag{font-size:0.75rem;padding:8px 14px;border:1px solid var(--line);border-radius:20px;color:var(--dim);transition:all .2s;}
+  .tag:hover{border-color:var(--accent-dim);color:var(--accent);}
+  .skill-cat{margin-bottom:26px;}
+  .skill-cat h4{font-size:0.72rem;color:var(--dim);letter-spacing:0.1em;margin-bottom:12px;}
+
+  .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-bottom:36px;}
+  .cert-card{
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 22px;display:flex;gap:16px;align-items:flex-start;
+    transition:border-color .25s, transform .25s;
+  }
+  .cert-card:hover{border-color:var(--accent-dim);transform:translateY(-3px);}
+  .cert-icon{
+    width:38px;height:38px;border-radius:50%;flex-shrink:0;
+    background:rgba(51,241,201,0.1);border:1px solid var(--accent-dim);
+    display:flex;align-items:center;justify-content:center;color:var(--accent);
+  }
+  .cert-icon svg{width:18px;height:18px;}
+  .cert-card h4{font-size:0.95rem;margin-bottom:4px;}
+  .cert-card span{font-size:0.75rem;color:var(--dim);font-family:'JetBrains Mono',monospace;}
+  .badge-row{display:flex;flex-wrap:wrap;gap:12px;}
+  .badge-pill{
+    display:flex;align-items:center;gap:8px;
+    font-size:0.78rem;padding:10px 16px;border-radius:20px;
+    border:1px solid var(--line);color:var(--text);background:var(--bg-elev);
+    transition:all .2s;
+  }
+  .badge-pill:hover{border-color:var(--accent-dim);}
+  .badge-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+
+  .dossier-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:22px;}
+  .dossier{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:border-color .25s, transform .25s;}
+  .dossier:hover{border-color:var(--accent-dim);transform:translateY(-4px);}
+  .dossier-img{width:100%;height:170px;object-fit:cover;display:block;border-bottom:1px solid var(--line);filter:saturate(0.85) contrast(1.05);}
+  .dossier-body{padding:22px 22px 24px;}
+  .dossier-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+  .dossier-id{font-size:0.68rem;color:var(--dim);}
+  .badge{font-size:0.62rem;letter-spacing:0.08em;padding:4px 9px;border-radius:20px;border:1px solid var(--accent-dim);color:var(--accent);}
+  .dossier h3{font-size:1.1rem;margin-bottom:10px;}
+  .dossier p{color:var(--dim);font-size:0.87rem;margin-bottom:18px;}
+  .dossier-links{display:flex;gap:16px;}
+  .dossier-link{font-size:0.78rem;color:var(--accent);display:inline-flex;align-items:center;gap:6px;}
+  .dossier-link.secondary{color:var(--dim);}
+  .dossier-link:hover{text-decoration:underline;}
+
+  #contact{padding-bottom:60px;}
+  .contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+  @media(max-width:860px){.contact-wrap{grid-template-columns:1fr;}}
+  .contact-info p{color:var(--dim);margin-bottom:24px;max-width:420px;}
+  .contact-links a{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-top:1px solid var(--line);font-size:0.88rem;color:var(--text);}
+  .contact-links a:first-child{border-top:none;}
+  .contact-links a span:last-child{color:var(--dim);font-size:0.78rem;}
+  .contact-links a:hover span:last-child{color:var(--accent);}
+  .cmd-form{background:var(--bg-elev);border:1px solid var(--line);padding:26px;border-radius:var(--radius);}
+  .cmd-line{color:var(--accent);font-size:0.78rem;margin-bottom:16px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:0.7rem;color:var(--dim);margin-bottom:6px;letter-spacing:0.05em;}
+  .field input, .field textarea{width:100%;background:var(--bg-elev-2);border:1px solid var(--line);color:var(--text);padding:11px 12px;font-family:'Inter',sans-serif;font-size:0.88rem;border-radius:2px;}
+  .field input:focus, .field textarea:focus{outline:none;border-color:var(--accent);}
+  .field textarea{resize:vertical;min-height:90px;}
+  .cmd-form .btn{width:100%;justify-content:center;margin-top:6px;}
+
+  footer{border-top:1px solid var(--line);padding:26px 8vw;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:var(--dim);font-size:0.75rem;font-family:'JetBrains Mono',monospace;position:relative;z-index:3;}
+
+  @media (prefers-reduced-motion: reduce){*{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}}
+
+  /* ---------- CHATBOT FLOTTANT ---------- */
+  .chat-fab{
+    position:fixed;bottom:26px;right:26px;z-index:80;
+    width:56px;height:56px;border-radius:50%;
+    background:var(--accent);color:#04120f;border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 30px -6px rgba(51,241,201,0.5);
+    transition:transform .2s;
+  }
+  .chat-fab:hover{transform:scale(1.06);}
+  .chat-fab svg{width:24px;height:24px;transition:opacity .15s;}
+  .chat-fab .icon-close{position:absolute;opacity:0;}
+  .chat-fab.open .icon-chat{opacity:0;}
+  .chat-fab.open .icon-close{opacity:1;}
+  .chat-dot{position:absolute;top:6px;right:6px;width:10px;height:10px;border-radius:50%;background:var(--accent2);border:2px solid var(--bg);}
+
+  .chat-panel{
+    position:fixed;bottom:92px;right:26px;z-index:80;
+    width:320px;max-width:calc(100vw - 40px);
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:8px;
+    box-shadow:0 30px 80px -20px rgba(0,0,0,0.7);
+    display:flex;flex-direction:column;overflow:hidden;
+    opacity:0;transform:translateY(16px) scale(0.97);pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .chat-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+  .chat-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;}
+  .chat-head .status-dot{width:6px;height:6px;}
+  .chat-head-txt strong{font-size:0.85rem;display:block;}
+  .chat-head-txt span{font-size:0.7rem;color:var(--dim);font-family:'JetBrains Mono',monospace;}
+  .chat-body{padding:16px 18px;max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+  .chat-msg{font-size:0.83rem;padding:10px 12px;border-radius:6px;max-width:88%;line-height:1.5;}
+  .chat-msg.bot{background:var(--bg-elev-2);color:var(--text);align-self:flex-start;border:1px solid var(--line);}
+  .chat-msg.user{background:var(--accent);color:#04120f;align-self:flex-end;}
+  .chat-msg a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px;}
+  .chat-msg.typing{color:var(--dim);}
+  .chat-msg.typing span{display:inline-block;width:5px;height:5px;margin-right:3px;border-radius:50%;background:currentColor;animation:typingDot 1s infinite ease-in-out;}
+  .chat-msg.typing span:nth-child(2){animation-delay:.15s;}
+  .chat-msg.typing span:nth-child(3){animation-delay:.3s;margin-right:0;}
+  @keyframes typingDot{0%,80%,100%{opacity:.3;transform:translateY(0);}40%{opacity:1;transform:translateY(-3px);}}
+  .chat-quick{padding:12px 18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;}
+  .chat-quick button{
+    font-size:0.72rem;padding:7px 12px;border-radius:20px;border:1px solid var(--line);
+    background:transparent;color:var(--dim);cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;
+  }
+  .chat-quick button:hover{border-color:var(--accent-dim);color:var(--accent);}
+  .chat-form{display:flex;gap:8px;padding:12px 18px 16px;border-top:1px solid var(--line);}
+  .chat-input{min-width:0;flex:1;background:var(--bg-elev-2);border:1px solid var(--line);border-radius:4px;color:var(--text);font:0.82rem 'Inter',sans-serif;padding:10px 11px;}
+  .chat-input:focus{outline:none;border-color:var(--accent-dim);}
+  .chat-send{width:40px;height:40px;border-radius:4px;border:1px solid var(--accent-dim);background:var(--accent);color:#04120f;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+  .chat-send svg{width:17px;height:17px;}
+</style>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="noise-line"></div>
+
+<header>
+  <div class="logo">ir<span>@</span>frumence</div>
+  <nav>
+    <ul>
+      <li><a href="#accueil">accueil</a></li>
+      <li><a href="#a-propos">à propos</a></li>
+      <li><a href="#competences">compétences</a></li>
+      <li><a href="#formations">formations</a></li>
+      <li><a href="#projets">projets</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </nav>
+  <div class="header-right">
+    <div class="status-pill"><span class="status-dot"></span>DISPONIBLE</div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Changer de thème">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<section id="accueil">
+  <div>
+    <div class="eyebrow">SESSION INITIALIZED — KOLWEZI, RDC</div>
+    <div class="terminal">
+      <div class="term-bar">
+        <span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span>
+        <span>~/portfolio — zsh</span>
+      </div>
+      <div class="term-body">
+        <div class="term-line">$ whoami</div>
+        <div class="term-line"><b>Ir Frumence</b> — Administrateur Réseaux &amp; Développeur Full Stack</div>
+        <div class="term-line">$ location --show</div>
+        <div class="term-line">Kolwezi, RDC</div>
+        <h1 class="hero-name">Bonjour, je suis<br>Ir Frumence<span class="cursor"></span></h1>
+        <p class="hero-role">Administrateur Réseaux & Développeur Full Stack. Je conçois des sites web modernes et je sécurise les infrastructures qui les font tourner.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn">Me contacter →</a>
+          <a href="#projets" class="btn ghost">Voir mes projets</a>
+          <a href="CV_BIBOTA_BIKANDA_Roger-1.pdf" class="btn ghost" download>Télécharger mon CV ↓</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hud">
+    <div class="hud-title"><span>SYSTEM STATUS</span><span>v1.0</span></div>
+    <div class="hud-row"><span class="k">Disponibilité</span><span class="v good">Ouverte</span></div>
+    <div class="hud-row"><span class="k">Localisation</span><span class="v">Kolwezi - RDC</span></div>
+    <div class="hud-row"><span class="k">Projets réalisés</span><span class="v">20+</span></div>
+    <div class="hud-row"><span class="k">Expérience</span><span class="v">3+ ans</span></div>
+    <div class="hud-row"><span class="k">Niveau réseau/sécurité</span>
+      <div class="hud-bar-track"><div class="hud-bar-fill" style="width:85%"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="a-propos">
+  <div class="profile-photo-wrap">
+    <picture>
+      <source srcset="profil-480.avif" type="image/avif">
+      <source srcset="profil-480.webp" type="image/webp">
+      <img class="profile-photo" src="profil.jpeg" alt="Photo de profil Ir Frumence" loading="lazy" decoding="async" width="240" height="264">
+    </picture>
+  </div>
+  <div class="about-text">
+    <div class="eyebrow">À PROPOS</div>
+    <h2 style="font-size:2rem;font-weight:700;margin-bottom:18px;">Qui je suis</h2>
+    <p>Je conçois et développe des sites web modernes, rapides et accessibles. J'aime transformer des idées en expériences numériques claires et efficaces.</p>
+    <p>Mon objectif est de livrer un code maintenable et des interfaces soignées qui apportent une vraie valeur aux utilisateurs.</p>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-num">20+</div><div class="stat-label">PROJETS RÉALISÉS</div></div>
+      <div class="stat-cell"><div class="stat-num">3+</div><div class="stat-label">ANNÉES D'EXPÉRIENCE</div></div>
+      <div class="stat-cell"><div class="stat-num">15+</div><div class="stat-label">CLIENTS SATISFAITS</div></div>
+      <div class="stat-cell"><div class="stat-num">24H</div><div class="stat-label">TEMPS DE RÉPONSE</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="competences">
+  <div class="sec-head">
+    <div class="eyebrow">STACK TECHNIQUE</div>
+    <h2>Mes compétences</h2>
+    <p>Les langages et technologies que j'utilise au quotidien pour développer et sécuriser.</p>
+  </div>
+  <div class="skills-wrap">
+    <div>
+      <svg id="radarChart" viewBox="-30 -15 360 330">
+        <g stroke="#1e2733" fill="none">
+          <polygon class="radar-axis" points="150,30 253,90 253,210 150,270 47,210 47,90"/>
+          <polygon class="radar-axis" points="150,70 214,110 214,190 150,230 86,190 86,110"/>
+          <polygon class="radar-axis" points="150,110 175,130 175,170 150,190 125,170 125,130"/>
+          <line class="radar-axis" x1="150" y1="150" x2="150" y2="30"/>
+          <line class="radar-axis" x1="150" y1="150" x2="253" y2="90"/>
+          <line class="radar-axis" x1="150" y1="150" x2="253" y2="210"/>
+          <line class="radar-axis" x1="150" y1="150" x2="150" y2="270"/>
+          <line class="radar-axis" x1="150" y1="150" x2="47" y2="210"/>
+          <line class="radar-axis" x1="150" y1="150" x2="47" y2="90"/>
+        </g>
+        <polygon class="radar-poly" points="150,45 224,100 220,195 150,250 90,190 80,105"/>
+        <text class="radar-lbl" x="150" y="14" text-anchor="middle">HTML5</text>
+        <text class="radar-lbl" x="290" y="86" text-anchor="start">CSS3</text>
+        <text class="radar-lbl" x="290" y="214" text-anchor="start">JavaScript</text>
+        <text class="radar-lbl" x="150" y="306" text-anchor="middle">React</text>
+        <text class="radar-lbl" x="10" y="214" text-anchor="end">Node.js</text>
+        <text class="radar-lbl" x="10" y="86" text-anchor="end">Python</text>
+      </svg>
+    </div>
+    <div>
+      <div class="skill-cat">
+        <h4>LANGAGES &amp; FRAMEWORKS</h4>
+        <div class="tag-cloud">
+          <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span>
+          <span class="tag">React</span><span class="tag">Node.js</span><span class="tag">Python</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h4>ADMINISTRATION RÉSEAUX</h4>
+        <div class="tag-cloud">
+          <span class="tag">Installation infrastructures</span><span class="tag">Sécurisation</span>
+          <span class="tag">Audit réseau</span><span class="tag">Maintenance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="formations">
+  <div class="sec-head">
+    <div class="eyebrow">PARCOURS</div>
+    <h2>Formations &amp; Certifications</h2>
+    <p>Mon parcours académique et les technologies sur lesquelles je suis qualifié.</p>
+  </div>
+  <div class="cert-grid">
+    <div class="cert-card glow-card">
+      <div class="cert-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.66 3 3 6 3s6-1.34 6-3v-5"/></svg>
+      </div>
+      <div>
+        <h4>Licence en Réseaux &amp; Télécommunications</h4>
+        <span>2026</span>
+      </div>
+    </div>
+    <div class="cert-card glow-card">
+      <div class="cert-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.66 3 3 6 3s6-1.34 6-3v-5"/></svg>
+      </div>
+      <div>
+        <h4>Diplôme d'État en Électronique Industrielle</h4>
+        <span>2017</span>
+      </div>
+    </div>
+  </div>
+  <div class="badge-row">
+    <div class="badge-pill"><span class="dot"></span>Cisco</div>
+    <div class="badge-pill"><span class="dot"></span>Mikrotik</div>
+    <div class="badge-pill"><span class="dot"></span>Ubuntu Server</div>
+    <div class="badge-pill"><span class="dot"></span>Administration réseau</div>
+    <div class="badge-pill"><span class="dot"></span>Gestion &amp; maintenance IT</div>
+  </div>
+</section>
+
+<section id="projets">
+  <div class="sec-head">
+    <div class="eyebrow">ARCHIVES</div>
+    <h2>Mes projets</h2>
+  </div>
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" data-filter="all">Tous</button>
+    <button class="filter-btn" data-filter="web">Web</button>
+    <button class="filter-btn" data-filter="reseau">Réseau</button>
+  </div>
+  <div class="dossier-grid">
+    <div class="dossier glow-card" data-category="web">
+      <img class="dossier-img" src="https://ir-roger-frumence.vercel.app/images/ecom.png" alt="Création des sites webs" loading="lazy" decoding="async" width="400" height="170">
+      <div class="dossier-body">
+        <div class="dossier-top"><span class="dossier-id">DOSSIER #001</span><span class="badge">DÉPLOYÉ</span></div>
+        <h3>Création des sites webs</h3>
+        <p>Création de sites web modernes, rapides et adaptés aux besoins des entreprises. Exemple : BM Security, site vitrine pour une société de sécurité et gardiennage à Kinshasa.</p>
+        <div class="dossier-links">
+          <a href="https://bm-security.vercel.app/" class="dossier-link" target="_blank" rel="noopener">Voir le projet →</a>
+          <a href="#contact" class="dossier-link secondary">Code source</a>
+        </div>
+      </div>
+    </div>
+    <div class="dossier glow-card" data-category="web">
+      <img class="dossier-img" src="https://ir-roger-frumence.vercel.app/images/img2.JPG" alt="Dashboard analytique" loading="lazy" decoding="async" width="400" height="170">
+      <div class="dossier-body">
+        <div class="dossier-top"><span class="dossier-id">DOSSIER #002</span><span class="badge">DÉPLOYÉ</span></div>
+        <h3>Dashboard Analytique</h3>
+        <p>Interface de visualisation de données avec graphiques interactifs.</p>
+        <div class="dossier-links">
+          <a href="#" class="dossier-link">Voir le projet →</a>
+          <a href="#contact" class="dossier-link secondary">Code source</a>
+        </div>
+      </div>
+    </div>
+    <div class="dossier glow-card" data-category="reseau">
+      <img class="dossier-img" src="https://ir-roger-frumence.vercel.app/images/infra.PNG" alt="Administration Réseaux" loading="lazy" decoding="async" width="400" height="170">
+      <div class="dossier-body">
+        <div class="dossier-top"><span class="dossier-id">DOSSIER #003</span><span class="badge">DÉPLOYÉ</span></div>
+        <h3>Administration Réseaux</h3>
+        <p>Installation, sécurisation, audit et maintenance des infrastructures réseaux.</p>
+        <div class="dossier-links">
+          <a href="#" class="dossier-link">Voir le projet →</a>
+          <a href="#contact" class="dossier-link secondary">Code source</a>
+        </div>
+      </div>
+    </div>
+    <div class="dossier glow-card" data-category="web">
+      <img class="dossier-img" src="https://dd-service-tfc.vercel.app/image/so1.jpg" alt="DD Service - Gestion de stock" loading="lazy" decoding="async" width="400" height="170">
+      <div class="dossier-body">
+        <div class="dossier-top"><span class="dossier-id">DOSSIER #004</span><span class="badge">DÉPLOYÉ</span></div>
+        <h3>DD Service — Gestion de stock</h3>
+        <p>Plateforme de gestion informatisée du stock pour petites entreprises : suivi des mouvements, alertes de rupture et tableaux d'aide à la décision. Étude de cas à Lubumbashi, RDC.</p>
+        <div class="dossier-links">
+          <a href="https://dd-service-tfc.vercel.app/index.html" class="dossier-link" target="_blank" rel="noopener">Voir le projet →</a>
+          <a href="#contact" class="dossier-link secondary">Code source</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="sec-head">
+    <div class="eyebrow">CONTACT</div>
+    <h2>Restons en contact</h2>
+  </div>
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <p>Une question, un projet à discuter ? N'hésitez pas à me contacter par email, WhatsApp ou LinkedIn.</p>
+      <div class="contact-links">
+        <a href="mailto:rogerfrumence@gmail.com"><span>Email</span><span>rogerfrumence@gmail.com</span></a>
+        <a href="https://wa.me/243847649171"><span>WhatsApp</span><span>+243 847649171</span></a>
+        <a href="https://www.linkedin.com/in/roger-frumence-37ba39387"><span>LinkedIn</span><span>roger-frumence</span></a>
+        <a href="#"><span>Localisation</span><span>Kolwezi - RDC</span></a>
+      </div>
+    </div>
+    <form class="cmd-form" id="contactForm">
+      <div class="cmd-line">$ send_message --new</div>
+      <div class="field"><label>Nom</label><input type="text" id="cfName" required placeholder="Votre nom"></div>
+      <div class="field"><label>Email</label><input type="email" id="cfEmail" required placeholder="vous@exemple.com"></div>
+      <div class="field"><label>Message</label><textarea id="cfMsg" required placeholder="Décrivez votre projet..."></textarea></div>
+      <button class="btn" type="submit">Envoyer →</button>
+    </form>
+    <script>
+      document.getElementById('contactForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = document.getElementById('cfName').value;
+        const email = document.getElementById('cfEmail').value;
+        const msg = document.getElementById('cfMsg').value;
+        const subject = 'Contact depuis le portfolio — ' + name;
+        const body = 'Nom: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + msg;
+        const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=rogerfrumence@gmail.com'
+          + '&su=' + encodeURIComponent(subject)
+          + '&body=' + encodeURIComponent(body);
+        window.open(gmailUrl, '_blank');
+      });
+    </script>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Ir Frumence. Tous droits réservés.</span>
+  <span>KOLWEZI · RDC</span>
+</footer>
+
+<!-- Retour en haut -->
+<button class="to-top" id="toTop" aria-label="Retour en haut">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<!-- Chatbot flottant -->
+<button class="chat-fab" id="chatFab" aria-label="Ouvrir le chat" aria-expanded="false">
+  <span class="chat-dot" id="chatDot"></span>
+  <svg class="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-head">
+    <span class="status-dot" style="position:static;"></span>
+    <div class="chat-head-txt">
+      <strong>Assistant Ir Frumence</strong>
+      <span>Répond généralement en quelques minutes</span>
+    </div>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="chat-msg bot">Bonjour 👋 Je suis l'assistant de Ir Frumence. Pose-moi une question ou choisis une option ci-dessous.</div>
+  </div>
+  <div class="chat-quick" id="chatQuick">
+    <button type="button" data-q="competences">Compétences</button>
+    <button type="button" data-q="projets">Projets</button>
+    <button type="button" data-q="cv">CV</button>
+    <button type="button" data-q="contact">Contact</button>
+  </div>
+  <form class="chat-form" id="chatForm">
+    <input class="chat-input" id="chatInput" type="text" autocomplete="off" placeholder="Écris ta question...">
+    <button class="chat-send" type="submit" aria-label="Envoyer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </form>
+</div>
+
+<script>
+  // Barre de progression de scroll + bouton retour en haut
+  const scrollProgress = document.getElementById('scrollProgress');
+  const toTop = document.getElementById('toTop');
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    scrollProgress.style.width = pct + '%';
+    toTop.classList.toggle('show', scrollTop > 500);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  toTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Filtre par catégorie
+  const filterBar = document.getElementById('filterBar');
+  if(filterBar){
+    const dossiers = document.querySelectorAll('.dossier[data-category]');
+    filterBar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.filter-btn');
+      if(!btn) return;
+      filterBar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      dossiers.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('hidden', !match);
+      });
+    });
+  }
+
+  // Glow au survol des cartes
+  document.querySelectorAll('.glow-card').forEach(card => {
+    card.addEventListener('mouseenter', () => card.classList.add('glow-active'));
+    card.addEventListener('mouseleave', () => card.classList.remove('glow-active'));
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+</script>
+
+<script>
+  // Animation au défilement
+  (function(){
+    const groupSelectors = [
+      '#about .stat-grid .stat-cell',
+      '#projets .dossier-grid .dossier',
+      '#timeline .log .log-entry',
+      '#competences .skill-cat',
+      '#formations .cert-grid .cert-card',
+      '#formations .badge-row .badge-pill'
+    ];
+    const soloSelectors = [
+      '.sec-head', '.about-text', '.profile-photo-wrap',
+      '.contact-info', '.cmd-form', '.radar-labels'
+    ];
+
+    groupSelectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach((el, i) => {
+        el.classList.add('reveal');
+        el.style.transitionDelay = (i * 90) + 'ms';
+      });
+    });
+    soloSelectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => el.classList.add('reveal'));
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  })();
+</script>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    document.documentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
+  });
+</script>
+
+<script>
+  const fab = document.getElementById('chatFab');
+  const panel = document.getElementById('chatPanel');
+  const body = document.getElementById('chatBody');
+  const quick = document.getElementById('chatQuick');
+  const chatForm = document.getElementById('chatForm');
+  const chatInput = document.getElementById('chatInput');
+  const dot = document.getElementById('chatDot');
+  const chatHistory = [];
+
+  const answers = {
+    competences: "Ir Frumence maîtrise HTML5, CSS3, JavaScript, React, Node.js et Python, avec un profil solide en administration, audit et sécurisation réseaux.",
+    projets: "Ses projets couvrent les sites web sur mesure, les dashboards, l'administration réseaux et les outils de gestion comme DD Service.",
+    cv: 'Tu peux télécharger son CV ici : <a href="CV_BIBOTA_BIKANDA_Roger-1.pdf" download>Télécharger le CV</a>.',
+    contact: 'Le plus rapide : <a href="mailto:rogerfrumence@gmail.com">rogerfrumence@gmail.com</a> ou <a href="https://wa.me/243847649171" target="_blank" rel="noopener">WhatsApp</a>.'
+  };
+
+  const intents = [
+    { keys: ['competence', 'compétence', 'stack', 'technologie', 'techno', 'react', 'python', 'node'], answer: answers.competences },
+    { keys: ['projet', 'portfolio', 'site', 'dashboard', 'realisation', 'réalisation'], answer: answers.projets },
+    { keys: ['cv', 'curriculum', 'resume', 'télécharger', 'telecharger'], answer: answers.cv },
+    { keys: ['contact', 'email', 'mail', 'whatsapp', 'appeler', 'message'], answer: answers.contact, action: () => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' }) },
+    { keys: ['disponible', 'disponibilité', 'dispo', 'freelance', 'mission'], answer: "Oui, Ir Frumence est disponible pour discuter de nouveaux projets web, dashboards ou besoins réseaux." },
+    { keys: ['bonjour', 'salut', 'hello', 'bonsoir'], answer: "Salut ! Je peux te renseigner sur ses compétences, ses projets, son CV ou ses contacts." }
+  ];
+
+  function addMsg(text, from, isHtml){
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + from;
+    if(isHtml){
+      div.innerHTML = text;
+    } else {
+      div.textContent = text;
+    }
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+    if(from === 'user' || from === 'bot'){
+      chatHistory.push({ role: from === 'bot' ? 'assistant' : 'user', content: div.textContent.trim() });
+      if(chatHistory.length > 10) chatHistory.shift();
+    }
+  }
+
+  function showTyping(){
+    const div = document.createElement('div');
+    div.className = 'chat-msg bot typing';
+    div.setAttribute('aria-label', 'Réponse en cours');
+    div.innerHTML = '<span></span><span></span><span></span>';
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+    return div;
+  }
+
+  function normalizeText(text){
+    return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+
+  function findAnswer(text){
+    const clean = normalizeText(text);
+    return intents.find(intent => intent.keys.some(key => clean.includes(normalizeText(key)))) || {
+      answer: "Je n'ai pas encore une réponse précise à ça. Essaie avec compétences, projets, CV ou contact, et je t'oriente vite."
+    };
+  }
+
+  async function askOpenAI(text){
+    const messages = chatHistory.slice(-8);
+    const lastMessage = messages[messages.length - 1];
+    if(lastMessage && lastMessage.role === 'user' && lastMessage.content === text){
+      messages.pop();
+    }
+
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        messages
+      })
+    });
+
+    const data = await response.json();
+    if(!response.ok) throw new Error(data.error || 'Erreur API');
+    return data.answer;
+  }
+
+  async function replyTo(text){
+    const result = findAnswer(text);
+    const typing = showTyping();
+    try{
+      const answer = await askOpenAI(text);
+      typing.remove();
+      addMsg(answer, 'bot');
+    } catch(error){
+      typing.remove();
+      addMsg(result.answer, 'bot', true);
+      if(result.action) result.action();
+    }
+  }
+
+  function togglePanel(open){
+    const isOpen = open !== undefined ? open : !panel.classList.contains('open');
+    panel.classList.toggle('open', isOpen);
+    fab.classList.toggle('open', isOpen);
+    fab.setAttribute('aria-expanded', isOpen);
+    if(isOpen){
+      dot.style.display = 'none';
+      setTimeout(() => chatInput.focus(), 120);
+    }
+  }
+
+  fab.addEventListener('click', () => togglePanel());
+
+  quick.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-q]');
+    if(!btn) return;
+    addMsg(btn.textContent, 'user');
+    replyTo(btn.dataset.q);
+  });
+
+  chatForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = chatInput.value.trim();
+    if(!text) return;
+    addMsg(text, 'user');
+    chatInput.value = '';
+    replyTo(text);
+  });
+</script>
+
+</body>
+</html>

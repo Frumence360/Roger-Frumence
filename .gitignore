@@ -1,0 +1,17 @@
+# Secrets and local environment files
+.env
+.env.*
+!.env.example
+
+# Dependencies and generated runtime files
+node_modules/
+node-compile-cache/
+.vercel/
+
+# Generated audit reports
+lighthouse-report*.json
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
